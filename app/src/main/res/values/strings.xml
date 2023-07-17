@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DisneyMovies</string>
+    <string name="login_go">Go</string>
 </resources>
