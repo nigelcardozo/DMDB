@@ -17,7 +17,7 @@ class MovieListViewModel @Inject constructor(private val repository: MoviesListR
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val discoverMoviesResponse = getMovieList()
+            var discoverMoviesResponse = getMovieList()
             movieDataState.value = discoverMoviesResponse?.results ?: arrayListOf()
         }
     }

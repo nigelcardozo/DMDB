@@ -1,5 +1,6 @@
 package com.elnimijogames.disneymovies.model.api
 
+import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
 import com.elnimijogames.disneymovies.model.responses.TMDBDiscoverMoviesResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,7 +36,7 @@ class TMDBWebService {
         api = retrofit.create(TMDBApi::class.java)
     }
 
-    suspend fun getDiscoverMovies(): TMDBDiscoverMoviesResponse {
+    suspend fun getDiscoverMovies(): DiscoverMoviesResponse {
         //ToDo: These should be passed in from a higher layer
         return api.getDiscoverMovies(
             API_KEY,
@@ -51,7 +52,7 @@ class TMDBWebService {
             @Query(PARAM_QUERY_KEY_WITH_COMPANIES) withCompany: String,
             @Query(PARAM_QUERY_KEY_WITH_GENRES) withGenres: String
 
-        ): TMDBDiscoverMoviesResponse
+        ): DiscoverMoviesResponse
     }
 
     companion object {
