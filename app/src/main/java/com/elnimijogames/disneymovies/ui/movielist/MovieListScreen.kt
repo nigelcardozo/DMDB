@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.elnimijogames.disneymovies.model.MenuItem
+import com.elnimijogames.disneymovies.model.responses.MovieData
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
@@ -40,7 +41,9 @@ import timber.log.Timber
 
 @Composable
 //fun MovieListScreen(movieDetailsNavigationCallback: () -> Unit) {
-fun MovieListScreen() {
+fun MovieListScreen(movieData: List<MovieData>) {
+
+    Timber.d("Number of Movies == " + movieData.size)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -154,6 +157,6 @@ fun MenuItemTile(menuItem: MenuItem) {
 fun MovieListScreenPreview() {
     DisneyMoviesTheme() {
         //MovieListScreen({})
-        MovieListScreen()
+        MovieListScreen(listOf())
     }
 }

@@ -13,7 +13,9 @@ import com.elnimijogames.disneymovies.model.StringResourceProviderImpl
  import com.elnimijogames.disneymovies.ui.movielist.MovieListViewModel
  import com.elnimijogames.disneymovies.ui.splashscreen.SplashScreen
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
+ import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +41,9 @@ private fun DMDBApp(stringResourceProvider: StringResourceProviderImpl) {
             }
         }
         composable(route = "movie_list_screen") {
-//            val viewModel: MovieListViewModel = hiltViewModel()
+            val viewModel: MovieListViewModel = hiltViewModel()
             MovieListScreen(
+                viewModel.movieDataState.value
 //                viewModel.photoGalleryState.value,
 //                viewModel.itemMenuState.value,
 //                { menuId ->
