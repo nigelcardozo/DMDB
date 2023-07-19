@@ -38,12 +38,13 @@ import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
 import timber.log.Timber
 
+private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
 //fun MovieListScreen(movieDetailsNavigationCallback: () -> Unit) {
-fun MovieListScreen(movieData: List<MovieData>) {
+fun MovieListScreen(movieDataList: List<MovieData>) {
 
-    Timber.d("Number of Movies == " + movieData.size)
+    Timber.d("Number of Movies == " + movieDataList.size)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,26 +58,13 @@ fun MovieListScreen(movieData: List<MovieData>) {
             ),
         contentAlignment = Alignment.TopCenter
     ) {
-        //TODO: Remove this, it's temporary for rendering tests.
-        val myDummyList = arrayListOf<MenuItem>(
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/4j0PNHkMr5ax3IA8tjtxcmPU3QT.jpg", "Encanto", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/naya0zF4kT401Sx15AtwB9vpcJr.jpg", "Meet the Robinsons", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/4x9FmvdJ464Fg7A9XcbYSmxfVw3.jpg", "Dumbo", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/ym7Kst6a4uodryxqbGOxmewF235.jpg", "Tangled", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/avz6S9HYWs4O8Oe4PenBFNX4uDi.jpg", "Cinderella", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/2mxS4wUimwlLmI1xp6QW6NSU361.jpg", "Big Hero 6", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/yprv5PbnEksoVj2v6XEnDBg9joR.jpg", "The Princess & the Frog", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/kgwjIb2JDHRhNk13lmSxiClFjVk.jpg", "Frozen", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/lPsD10PP4rgUGiGR4CCXA6iY0QQ.jpg", "Raya", "3"),
-            MenuItem("https://image.tmdb.org/t/p/w370_and_h556_multi_faces/v17k3Pwv1OEC4chJK49NOHqkbf8.jpg", "Snow White & the Seven Dwarfs", "3")
-        )
-        VerticalGridButtons(menuItems = myDummyList)
+        VerticalGridButtons(movieDataList = movieDataList)
     }
 }
 
 @Composable
 fun VerticalGridButtons(
-    menuItems: ArrayList<MenuItem>
+    movieDataList: List<MovieData>
     //navigationCallback: (String) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -95,15 +83,15 @@ fun VerticalGridButtons(
 //        ) {
 //            HorizontalImageGallery(assetPaths, navigationGalleryCallback)
 //        }
-        items(menuItems) { menuItem ->
-            MenuItemTile(menuItem)
+        items(movieDataList) { movieData ->
+            MenuItemTile(movieData)
         }
     }
 }
 
 @Composable
 //fun MenuItemTile(navigationCallback:(String) -> Unit) {
-fun MenuItemTile(menuItem: MenuItem) {
+fun MenuItemTile(movieData: MovieData) {
     Card(
         Modifier
             .padding(8.dp)
@@ -122,7 +110,7 @@ fun MenuItemTile(menuItem: MenuItem) {
                 .fillMaxWidth(),
         ) {
             AsyncImage(
-                model = menuItem.imagePath,
+                model = BASE_URL + movieData.posterPath,
                 contentDescription = "Menu Thumbnail",
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
@@ -143,7 +131,7 @@ fun MenuItemTile(menuItem: MenuItem) {
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 10.dp)
                 .horizontalScroll(movieTitleScroll),
-                text = menuItem.menuName,
+                text = movieData.originalTitle,
                 style = MaterialTheme.typography.displaySmall,
                 color = Color.White,
                 maxLines = 1
