@@ -121,7 +121,7 @@ fun MenuItemTile(movieData: MovieData) {
                         //Timber.d("menuItem clicked == " + menuItem.menuId)
                         //navigationCallback(menuItem.menuId)
                     }
-                    )
+                )
             )
 
             Spacer(modifier = Modifier.height(height = 15.dp))
