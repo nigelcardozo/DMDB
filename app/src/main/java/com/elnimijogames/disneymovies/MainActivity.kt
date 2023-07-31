@@ -1,18 +1,16 @@
 package com.elnimijogames.disneymovies
 
  import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
- import androidx.hilt.navigation.compose.hiltViewModel
+ import androidx.activity.ComponentActivity
+ import androidx.activity.compose.setContent
+ import androidx.compose.runtime.Composable
  import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.elnimijogames.disneymovies.model.StringResourceProviderImpl
+ import androidx.navigation.compose.composable
+ import androidx.navigation.compose.rememberNavController
+ import com.elnimijogames.disneymovies.model.StringResourceProviderImpl
  import com.elnimijogames.disneymovies.ui.movielist.MovieListScreen
- import com.elnimijogames.disneymovies.ui.movielist.MovieListViewModel
  import com.elnimijogames.disneymovies.ui.splashscreen.SplashScreen
-import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
+ import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
  import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,18 +39,7 @@ private fun DMDBApp(stringResourceProvider: StringResourceProviderImpl) {
             }
         }
         composable(route = "movie_list_screen") {
-            val viewModel: MovieListViewModel = hiltViewModel()
-            MovieListScreen(
-                viewModel.movieDataState.value
-//                viewModel.photoGalleryState.value,
-//                viewModel.itemMenuState.value,
-//                { menuId ->
-//                    navController.navigate("details_screen/$menuId")
-//                },
-//                { galleryPath ->
-//                    navController.navigate("gallery_screen/$galleryPath")
-//                }
-            )
+            MovieListScreen()
         }
 //        composable(
 //            route = "details_screen/{menuId}",

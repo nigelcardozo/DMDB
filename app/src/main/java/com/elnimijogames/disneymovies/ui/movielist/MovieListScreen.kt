@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -27,24 +26,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.elnimijogames.disneymovies.model.MenuItem
 import com.elnimijogames.disneymovies.model.responses.MovieData
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
-import timber.log.Timber
 
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
 //fun MovieListScreen(movieDetailsNavigationCallback: () -> Unit) {
-fun MovieListScreen(movieDataList: List<MovieData>) {
+fun MovieListScreen() {
+    val viewModel: MovieListViewModel = hiltViewModel()
 
-    Timber.d("Number of Movies == " + movieDataList.size)
+    val movieDataList = viewModel.getMovieListPage().collectAsLazyPagingItems()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +65,7 @@ fun MovieListScreen(movieDataList: List<MovieData>) {
 
 @Composable
 fun VerticalGridButtons(
-    movieDataList: List<MovieData>
+    movieDataList: LazyPagingItems<MovieData>
     //navigationCallback: (String) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -76,21 +77,15 @@ fun VerticalGridButtons(
             top = 100.dp
         ),
     ) {
-//        item(
-//            span = {
-//                GridItemSpan(maxLineSpan)
-//            },
-//        ) {
-//            HorizontalImageGallery(assetPaths, navigationGalleryCallback)
-//        }
-        items(movieDataList) { movieData ->
-            MenuItemTile(movieData)
+        items(
+            movieDataList.itemCount
+        ) { index ->
+            movieDataList[index]?.let { MenuItemTile(it) }
         }
     }
 }
 
 @Composable
-//fun MenuItemTile(navigationCallback:(String) -> Unit) {
 fun MenuItemTile(movieData: MovieData) {
     Card(
         Modifier
@@ -144,7 +139,6 @@ fun MenuItemTile(movieData: MovieData) {
 @Composable
 fun MovieListScreenPreview() {
     DisneyMoviesTheme() {
-        //MovieListScreen({})
-        MovieListScreen(listOf())
+        MovieListScreen()
     }
 }

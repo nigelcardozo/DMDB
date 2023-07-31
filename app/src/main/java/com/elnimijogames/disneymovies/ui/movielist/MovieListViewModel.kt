@@ -1,14 +1,14 @@
 package com.elnimijogames.disneymovies.ui.movielist
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.elnimijogames.disneymovies.model.MoviesListRepository
-import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
 import com.elnimijogames.disneymovies.model.responses.MovieData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,14 +17,8 @@ class MovieListViewModel @Inject constructor(private val repository: MoviesListR
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            var discoverMoviesResponse = getMovieList(1)
-            movieDataState.value = discoverMoviesResponse?.results ?: arrayListOf()
         }
     }
 
-    val movieDataState: MutableState<List<MovieData>> = mutableStateOf(emptyList())
-
-    private suspend fun getMovieList(page: Int): DiscoverMoviesResponse? {
-        return repository.getDiscoverMovies(page)
-    }
+    fun getMovieListPage(): Flow<PagingData<MovieData>> = repository.getDiscoverMoviesPage().cachedIn(viewModelScope)
 }
