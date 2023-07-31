@@ -36,12 +36,13 @@ class TMDBWebService {
         api = retrofit.create(TMDBApi::class.java)
     }
 
-    suspend fun getDiscoverMovies(): DiscoverMoviesResponse {
+    suspend fun getDiscoverMovies(page: String): DiscoverMoviesResponse {
         //ToDo: These should be passed in from a higher layer
         return api.getDiscoverMovies(
             API_KEY,
             (VAL_COMPANIES_DISNEY_ANIMATION + PIPE_SEPARATOR + VAL_COMPANIES_DISNEY_PRODUCTION),
-            VAL_GENRES_ANIMATED
+            VAL_GENRES_ANIMATED,
+            page
         )
     }
 
@@ -50,7 +51,8 @@ class TMDBWebService {
         suspend fun getDiscoverMovies(
             @Query(PARAM_QUERY_API_KEY) apiKey: String,
             @Query(PARAM_QUERY_KEY_WITH_COMPANIES) withCompany: String,
-            @Query(PARAM_QUERY_KEY_WITH_GENRES) withGenres: String
+            @Query(PARAM_QUERY_KEY_WITH_GENRES) withGenres: String,
+            @Query(PARAM_QUERY_KEY_PAGE) withPage: String
 
         ): DiscoverMoviesResponse
     }
@@ -62,6 +64,7 @@ class TMDBWebService {
         private const val PARAM_QUERY_API_KEY: String = "api_key"
         private const val PARAM_QUERY_KEY_WITH_COMPANIES: String = "with_companies"
         private const val PARAM_QUERY_KEY_WITH_GENRES: String = "with_genres"
+        private const val PARAM_QUERY_KEY_PAGE: String = "page"
         private const val VAL_COMPANIES_DISNEY_ANIMATION: String = "6125"
         private const val VAL_COMPANIES_DISNEY_PRODUCTION: String = "3166"
         private const val VAL_GENRES_ANIMATED: String = "16"
