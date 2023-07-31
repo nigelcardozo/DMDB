@@ -17,14 +17,14 @@ class MovieListViewModel @Inject constructor(private val repository: MoviesListR
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            var discoverMoviesResponse = getMovieList("1")
+            var discoverMoviesResponse = getMovieList(1)
             movieDataState.value = discoverMoviesResponse?.results ?: arrayListOf()
         }
     }
 
     val movieDataState: MutableState<List<MovieData>> = mutableStateOf(emptyList())
 
-    private suspend fun getMovieList(page: String): DiscoverMoviesResponse? {
+    private suspend fun getMovieList(page: Int): DiscoverMoviesResponse? {
         return repository.getDiscoverMovies(page)
     }
 }

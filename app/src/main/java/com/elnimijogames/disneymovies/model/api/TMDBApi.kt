@@ -36,7 +36,7 @@ class TMDBWebService {
         api = retrofit.create(TMDBApi::class.java)
     }
 
-    suspend fun getDiscoverMovies(page: String): DiscoverMoviesResponse {
+    suspend fun getDiscoverMovies(page: Int): DiscoverMoviesResponse {
         //ToDo: These should be passed in from a higher layer
         return api.getDiscoverMovies(
             API_KEY,
@@ -52,7 +52,7 @@ class TMDBWebService {
             @Query(PARAM_QUERY_API_KEY) apiKey: String,
             @Query(PARAM_QUERY_KEY_WITH_COMPANIES) withCompany: String,
             @Query(PARAM_QUERY_KEY_WITH_GENRES) withGenres: String,
-            @Query(PARAM_QUERY_KEY_PAGE) withPage: String
+            @Query(PARAM_QUERY_KEY_PAGE) withPage: Int
 
         ): DiscoverMoviesResponse
     }

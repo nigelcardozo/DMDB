@@ -11,7 +11,7 @@ class MoviesListRepository(private val tmdbWebService: TMDBWebService = TMDBWebS
         0
     )
 
-    suspend fun getDiscoverMovies(page: String): DiscoverMoviesResponse {
+    suspend fun getDiscoverMovies(page: Int): DiscoverMoviesResponse {
         val response = tmdbWebService.getDiscoverMovies(page)
         cachedDiscoverMoviesResponse = response
         return response
