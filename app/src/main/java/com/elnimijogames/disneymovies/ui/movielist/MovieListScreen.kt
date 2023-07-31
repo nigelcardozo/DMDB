@@ -40,8 +40,7 @@ import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
-//fun MovieListScreen(movieDetailsNavigationCallback: () -> Unit) {
-fun MovieListScreen() {
+fun MovieListScreen(movieDetailsNavigationCallback: (String) -> Unit) {
     val viewModel: MovieListViewModel = hiltViewModel()
 
     val movieDataList = viewModel.getMovieListPage().collectAsLazyPagingItems()
@@ -59,14 +58,14 @@ fun MovieListScreen() {
             ),
         contentAlignment = Alignment.TopCenter
     ) {
-        VerticalGridButtons(movieDataList = movieDataList)
+        VerticalGridButtons(movieDataList = movieDataList, movieDetailsNavigationCallback)
     }
 }
 
 @Composable
 fun VerticalGridButtons(
-    movieDataList: LazyPagingItems<MovieData>
-    //navigationCallback: (String) -> Unit,
+    movieDataList: LazyPagingItems<MovieData>,
+    navigationCallback: (String) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -80,13 +79,15 @@ fun VerticalGridButtons(
         items(
             movieDataList.itemCount
         ) { index ->
-            movieDataList[index]?.let { MenuItemTile(it) }
+            movieDataList[index]?.let { MenuItemTile(it, navigationCallback) }
         }
     }
+
+    // TODO: Add error handling
 }
 
 @Composable
-fun MenuItemTile(movieData: MovieData) {
+fun MenuItemTile(movieData: MovieData, navigationCallback: (String) -> Unit) {
     Card(
         Modifier
             .padding(8.dp)
@@ -113,8 +114,7 @@ fun MenuItemTile(movieData: MovieData) {
                     .padding(top = 0.dp)
                     .align(Alignment.CenterHorizontally)
                     .clickable(onClick = {
-                        //Timber.d("menuItem clicked == " + menuItem.menuId)
-                        //navigationCallback(menuItem.menuId)
+                        navigationCallback(movieData.id.toString())
                     }
                 )
             )
@@ -139,6 +139,6 @@ fun MenuItemTile(movieData: MovieData) {
 @Composable
 fun MovieListScreenPreview() {
     DisneyMoviesTheme() {
-        MovieListScreen()
+        MovieListScreen({})
     }
 }
