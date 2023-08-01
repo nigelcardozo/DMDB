@@ -6,6 +6,7 @@ data class MovieDetails (
     val backdropPath: String,
     val posterPath: String,
     val originalLanguage: String,
-    val releaseDate: String
-    //val voteAverage: Float
+    val releaseDate: String,
+    val voteAverage: String,
+    val voteCount: Int
     )

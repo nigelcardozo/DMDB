@@ -15,8 +15,9 @@ class MovieDetailsViewModel(private val savedStateHandle: SavedStateHandle): Vie
         val posterPath = savedStateHandle.get<String>("posterPath")?: ""
         val originalLanguage = savedStateHandle.get<String>("originalLanguage")?: ""
         val releaseDate = savedStateHandle.get<String>("releaseDate")?: ""
-        //val voteAverage = savedStateHandle.get<Float>("voteAverage")?: 0.0
+        val voteAverage = savedStateHandle.get<String>("voteAverage")?: ""
+        val voteCount = savedStateHandle.get<Int>("voteCount")?: 0
 
-        movieDetailsState.value = MovieDetails(id, title, backdropPath, posterPath, originalLanguage, releaseDate)
+        movieDetailsState.value = MovieDetails(id, title, backdropPath, posterPath, originalLanguage, releaseDate, voteAverage, voteCount)
     }
 }

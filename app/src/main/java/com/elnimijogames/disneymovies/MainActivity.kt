@@ -5,7 +5,6 @@ package com.elnimijogames.disneymovies
  import androidx.activity.compose.setContent
  import androidx.compose.runtime.Composable
  import androidx.hilt.navigation.compose.hiltViewModel
- import androidx.lifecycle.viewmodel.compose.viewModel
  import androidx.navigation.NavType
  import androidx.navigation.compose.NavHost
  import androidx.navigation.compose.composable
@@ -46,20 +45,28 @@ private fun DMDBApp(stringResourceProvider: StringResourceProviderImpl) {
         }
         composable(route = "movie_list_screen") {
             MovieListScreen() { movieDetails ->
-                navController.navigate("destination_movie_details_screen/${movieDetails.id}/${movieDetails.title}/${movieDetails.backdropPath}/${movieDetails.posterPath}/${movieDetails.originalLanguage}/${movieDetails.releaseDate}")
+                navController.navigate("destination_movie_details_screen/" +
+                        "${movieDetails.id}/" +
+                        "${movieDetails.title}/" +
+                        "${movieDetails.backdropPath}/" +
+                        "${movieDetails.posterPath}/" +
+                        "${movieDetails.originalLanguage}/" +
+                        "${movieDetails.releaseDate}/" +
+                        "${movieDetails.voteAverage}/" +
+                        "${movieDetails.voteCount}")
             }
         }
         composable(
-            //route = "destination_movie_details_screen/{id}/{title}/{backdropPath}/{posterPath}/{originalLanguage}/{releaseDate}/{voteAverage}",
-            route = "destination_movie_details_screen/{id}/{title}/{backdropPath}/{posterPath}/{originalLanguage}/{releaseDate}",
+            route = "destination_movie_details_screen/{id}/{title}/{backdropPath}/{posterPath}/{originalLanguage}/{releaseDate}/{voteAverage}/{voteCount}",
             arguments = listOf (
                 navArgument("id") { type = NavType.IntType },
                 navArgument("title") { type = NavType.StringType },
                 navArgument("backdropPath") { type = NavType.StringType },
                 navArgument("posterPath") { type = NavType.StringType },
                 navArgument("originalLanguage") { type = NavType.StringType },
-                navArgument("releaseDate") { type = NavType.StringType }
-                //navArgument("voteAverage") { type = NavType.FloatType }
+                navArgument("releaseDate") { type = NavType.StringType },
+                navArgument("voteAverage") { type = NavType.StringType },
+                navArgument("voteCount") { type = NavType.IntType }
             )
         ) {
             val viewModel: MovieDetailsViewModel = hiltViewModel()

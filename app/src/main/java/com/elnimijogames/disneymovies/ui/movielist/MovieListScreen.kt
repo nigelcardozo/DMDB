@@ -144,7 +144,9 @@ fun getMovieDetails(movieData: MovieData): MovieDetails {
         Uri.encode(movieData.backdropPath),
         Uri.encode(movieData.posterPath),
         movieData.originalLanguage,
-        movieData.releaseDate
+        movieData.releaseDate,
+        movieData.voteAverage.toString(),
+        movieData.voteCount
     )
 }
 @Preview(showBackground = true)
