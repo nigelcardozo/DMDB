@@ -45,18 +45,25 @@ private fun DMDBApp(stringResourceProvider: StringResourceProviderImpl) {
             }
         }
         composable(route = "movie_list_screen") {
-            MovieListScreen() { navigationMovieId ->
-                navController.navigate("destination_movie_details_screen/$navigationMovieId")
+            MovieListScreen() { movieDetails ->
+                navController.navigate("destination_movie_details_screen/${movieDetails.id}/${movieDetails.title}/${movieDetails.backdropPath}/${movieDetails.posterPath}/${movieDetails.originalLanguage}/${movieDetails.releaseDate}")
             }
         }
         composable(
-            route = "destination_movie_details_screen/{id}",
-            arguments = listOf (navArgument("id") {
-                type = NavType.StringType
-            })
+            //route = "destination_movie_details_screen/{id}/{title}/{backdropPath}/{posterPath}/{originalLanguage}/{releaseDate}/{voteAverage}",
+            route = "destination_movie_details_screen/{id}/{title}/{backdropPath}/{posterPath}/{originalLanguage}/{releaseDate}",
+            arguments = listOf (
+                navArgument("id") { type = NavType.IntType },
+                navArgument("title") { type = NavType.StringType },
+                navArgument("backdropPath") { type = NavType.StringType },
+                navArgument("posterPath") { type = NavType.StringType },
+                navArgument("originalLanguage") { type = NavType.StringType },
+                navArgument("releaseDate") { type = NavType.StringType }
+                //navArgument("voteAverage") { type = NavType.FloatType }
+            )
         ) {
             val viewModel: MovieDetailsViewModel = hiltViewModel()
-            MovieDetailsScreen()
+            MovieDetailsScreen(viewModel.movieDetailsState.value)
         }
 //        composable(
 //            route = "gallery_screen/{galleryPath}",

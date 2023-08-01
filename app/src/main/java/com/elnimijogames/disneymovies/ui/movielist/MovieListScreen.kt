@@ -1,5 +1,6 @@
 package com.elnimijogames.disneymovies.ui.movielist
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -32,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import com.elnimijogames.disneymovies.model.MovieDetails
 import com.elnimijogames.disneymovies.model.responses.MovieData
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
@@ -40,7 +42,7 @@ import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
-fun MovieListScreen(movieDetailsNavigationCallback: (String) -> Unit) {
+fun MovieListScreen(movieDetailsNavigationCallback: (MovieDetails) -> Unit) {
     val viewModel: MovieListViewModel = hiltViewModel()
 
     val movieDataList = viewModel.getMovieListPage().collectAsLazyPagingItems()
@@ -65,7 +67,7 @@ fun MovieListScreen(movieDetailsNavigationCallback: (String) -> Unit) {
 @Composable
 fun VerticalGridButtons(
     movieDataList: LazyPagingItems<MovieData>,
-    navigationCallback: (String) -> Unit,
+    navigationCallback: (MovieDetails) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -87,7 +89,7 @@ fun VerticalGridButtons(
 }
 
 @Composable
-fun MenuItemTile(movieData: MovieData, navigationCallback: (String) -> Unit) {
+fun MenuItemTile(movieData: MovieData, navigationCallback: (MovieDetails) -> Unit) {
     Card(
         Modifier
             .padding(8.dp)
@@ -114,7 +116,7 @@ fun MenuItemTile(movieData: MovieData, navigationCallback: (String) -> Unit) {
                     .padding(top = 0.dp)
                     .align(Alignment.CenterHorizontally)
                     .clickable(onClick = {
-                        navigationCallback(movieData.id.toString())
+                        navigationCallback(getMovieDetails(movieData))
                     }
                 )
             )
@@ -135,6 +137,16 @@ fun MenuItemTile(movieData: MovieData, navigationCallback: (String) -> Unit) {
     }
 }
 
+fun getMovieDetails(movieData: MovieData): MovieDetails {
+    return MovieDetails(
+        movieData.id,
+        movieData.title,
+        Uri.encode(movieData.backdropPath),
+        Uri.encode(movieData.posterPath),
+        movieData.originalLanguage,
+        movieData.releaseDate
+    )
+}
 @Preview(showBackground = true)
 @Composable
 fun MovieListScreenPreview() {
