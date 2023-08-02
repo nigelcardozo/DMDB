@@ -1,12 +1,14 @@
 package com.elnimijogames.disneymovies.model.api
 
 import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
+import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.model.responses.TMDBDiscoverMoviesResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -19,6 +21,7 @@ import retrofit2.http.Query
 class TMDBWebService {
     private lateinit var api: TMDBApi
     private val BASE_URL: String = "https://api.themoviedb.org/3/"
+
 
     init {
         val interceptor = HttpLoggingInterceptor()
@@ -46,6 +49,14 @@ class TMDBWebService {
         )
     }
 
+    suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse {
+        return api.getDiscoverMovieDetails(
+            API_KEY,
+            VAL_MOVIES,
+            movieId
+        )
+    }
+
     interface TMDBApi {
         @GET("discover/movie")
         suspend fun getDiscoverMovies(
@@ -55,6 +66,14 @@ class TMDBWebService {
             @Query(PARAM_QUERY_KEY_PAGE) withPage: Int
 
         ): DiscoverMoviesResponse
+
+        @GET("movie/{movieId}")
+        suspend fun getDiscoverMovieDetails(
+            @Query(PARAM_QUERY_API_KEY) apiKey: String,
+            @Query(PARAM_QUERY_KEY_APPEND_TO_RESPONSE) appendToResponseKey1: String,
+            @Path("movieId") movieId: Int
+
+        ): MovieDetailsResponse
     }
 
     companion object {
@@ -65,9 +84,11 @@ class TMDBWebService {
         private const val PARAM_QUERY_KEY_WITH_COMPANIES: String = "with_companies"
         private const val PARAM_QUERY_KEY_WITH_GENRES: String = "with_genres"
         private const val PARAM_QUERY_KEY_PAGE: String = "page"
+        private const val PARAM_QUERY_KEY_APPEND_TO_RESPONSE: String = "append_to_response"
         private const val VAL_COMPANIES_DISNEY_ANIMATION: String = "6125"
         private const val VAL_COMPANIES_DISNEY_PRODUCTION: String = "3166"
         private const val VAL_GENRES_ANIMATED: String = "16"
+        private const val VAL_MOVIES: String = "movies"
 
     }
 }

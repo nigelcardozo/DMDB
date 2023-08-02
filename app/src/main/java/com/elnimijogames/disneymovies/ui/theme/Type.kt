@@ -21,6 +21,11 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
+    displayMedium = TextStyle(
+        fontFamily = Oxanium,
+        fontWeight = FontWeight.Bold,
+        fontSize = 28.sp
+    ),
     displaySmall = TextStyle(
         fontFamily = Oxanium,
         fontWeight = FontWeight.Bold,
