@@ -51,9 +51,9 @@ class TMDBWebService {
 
     suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse {
         return api.getDiscoverMovieDetails(
+            movieId,
             API_KEY,
-            VAL_MOVIES,
-            movieId
+            VAL_VIDEOS
         )
     }
 
@@ -69,9 +69,9 @@ class TMDBWebService {
 
         @GET("movie/{movieId}")
         suspend fun getDiscoverMovieDetails(
+            @Path("movieId") movieId: Int,
             @Query(PARAM_QUERY_API_KEY) apiKey: String,
-            @Query(PARAM_QUERY_KEY_APPEND_TO_RESPONSE) appendToResponseKey1: String,
-            @Path("movieId") movieId: Int
+            @Query(PARAM_QUERY_KEY_APPEND_TO_RESPONSE) appendToResponseKey1: String
 
         ): MovieDetailsResponse
     }
@@ -88,7 +88,7 @@ class TMDBWebService {
         private const val VAL_COMPANIES_DISNEY_ANIMATION: String = "6125"
         private const val VAL_COMPANIES_DISNEY_PRODUCTION: String = "3166"
         private const val VAL_GENRES_ANIMATED: String = "16"
-        private const val VAL_MOVIES: String = "movies"
+        private const val VAL_VIDEOS: String = "videos"
 
     }
 }

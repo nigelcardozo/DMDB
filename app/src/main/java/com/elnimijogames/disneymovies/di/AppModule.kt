@@ -1,6 +1,7 @@
 package com.elnimijogames.disneymovies.di
 
 import android.content.Context
+import com.elnimijogames.disneymovies.model.MovieRepository
 import com.elnimijogames.disneymovies.model.MoviesListRepository
 import com.elnimijogames.disneymovies.model.StringResourceProviderImpl
 import dagger.Module
@@ -15,6 +16,9 @@ class AppModule {
 
     @Provides
     fun providesMovieListRepository(): MoviesListRepository = MoviesListRepository()
+
+    @Provides
+    fun providesMovieRepository(): MovieRepository = MovieRepository()
 
     @Provides
     fun providesStringResourceProvider(@ApplicationContext appContext: Context): StringResourceProviderImpl {

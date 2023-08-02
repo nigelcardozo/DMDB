@@ -1,7 +1,6 @@
 package com.elnimijogames.disneymovies.ui.detailsscreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,19 +20,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.elnimijogames.disneymovies.model.MovieDetails
-import com.elnimijogames.disneymovies.ui.movielist.VerticalGridButtons
-import com.elnimijogames.disneymovies.ui.movielist.getMovieDetails
+import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
-import timber.log.Timber
 
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
-fun MovieDetailsScreen(movieDetails: MovieDetails?) {
-    Timber.d("MovieDetails == " + movieDetails?.id)
+fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse) {
+    //Timber.d("MovieDetails == " + movieDetails?.id)
 //    Text(" movie == " + movieDetails?.title +
 //            " id == " + movieDetails?.id +
 //            " date == " + movieDetails?.releaseDate +
@@ -57,7 +53,7 @@ fun MovieDetailsScreen(movieDetails: MovieDetails?) {
         contentAlignment = Alignment.TopCenter
     ) {
         AsyncImage(
-            model = BASE_URL + movieDetails?.backdropPath,
+            model = BASE_URL + movieDetailsResponse.backdropPath,
             contentDescription = "Background",
             //contentScale = ContentScale.FillBounds,
             contentScale = ContentScale.FillBounds,
@@ -77,24 +73,29 @@ fun MovieDetailsScreen(movieDetails: MovieDetails?) {
         ) {
 
             Text(
-                text = movieDetails?.title ?: "",
+                text = movieDetailsResponse.title ?: "",
                 style = MaterialTheme.typography.displayMedium,
                 color = Color.White
             )
 
             Text(
-                text = movieDetails?.releaseDate ?: "",
+                text = movieDetailsResponse.releaseDate ?: "",
                 style = MaterialTheme.typography.displaySmall,
                 color = Color.White
             )
 
             Text(
-                text = movieDetails?.voteAverage ?: "",
+                text = movieDetailsResponse.tagline ?: "",
                 style = MaterialTheme.typography.displaySmall,
                 color = Color.White
             )
-        }
 
+//            Text(
+//                text = movieDetailsResponse.voteAverage ?: "",
+//                style = MaterialTheme.typography.displaySmall,
+//                color = Color.White
+//            )
+        }
     }
 }
 
@@ -102,6 +103,6 @@ fun MovieDetailsScreen(movieDetails: MovieDetails?) {
 @Composable
 fun MovieDetailsScreenPreview() {
     DisneyMoviesTheme() {
-        MovieDetailsScreen(MovieDetails(0, "", "", "", "", "", "", 0))
+        MovieDetailsScreen(MovieDetailsResponse())
     }
 }

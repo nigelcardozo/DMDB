@@ -38,11 +38,12 @@ import com.elnimijogames.disneymovies.model.responses.MovieData
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
+import timber.log.Timber
 
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
-fun MovieListScreen(movieDetailsNavigationCallback: (MovieDetails) -> Unit) {
+fun MovieListScreen(movieDetailsNavigationCallback: (Int) -> Unit) {
     val viewModel: MovieListViewModel = hiltViewModel()
 
     val movieDataList = viewModel.getMovieListPage().collectAsLazyPagingItems()
@@ -67,7 +68,7 @@ fun MovieListScreen(movieDetailsNavigationCallback: (MovieDetails) -> Unit) {
 @Composable
 fun VerticalGridButtons(
     movieDataList: LazyPagingItems<MovieData>,
-    navigationCallback: (MovieDetails) -> Unit,
+    navigationCallback: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -89,7 +90,7 @@ fun VerticalGridButtons(
 }
 
 @Composable
-fun MenuItemTile(movieData: MovieData, navigationCallback: (MovieDetails) -> Unit) {
+fun MenuItemTile(movieData: MovieData, navigationCallback: (Int) -> Unit) {
     Card(
         Modifier
             .padding(8.dp)
@@ -116,7 +117,8 @@ fun MenuItemTile(movieData: MovieData, navigationCallback: (MovieDetails) -> Uni
                     .padding(top = 0.dp)
                     .align(Alignment.CenterHorizontally)
                     .clickable(onClick = {
-                        navigationCallback(getMovieDetails(movieData))
+                        Timber.d("onClick event for movie ID == " + movieData.id)
+                        navigationCallback(movieData.id)
                     }
                 )
             )
@@ -137,18 +139,6 @@ fun MenuItemTile(movieData: MovieData, navigationCallback: (MovieDetails) -> Uni
     }
 }
 
-fun getMovieDetails(movieData: MovieData): MovieDetails {
-    return MovieDetails(
-        movieData.id,
-        movieData.title,
-        Uri.encode(movieData.backdropPath),
-        Uri.encode(movieData.posterPath),
-        movieData.originalLanguage,
-        movieData.releaseDate,
-        movieData.voteAverage.toString(),
-        movieData.voteCount
-    )
-}
 @Preview(showBackground = true)
 @Composable
 fun MovieListScreenPreview() {

@@ -1,23 +1,34 @@
 package com.elnimijogames.disneymovies.ui.detailsscreen
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.elnimijogames.disneymovies.model.MovieDetails
+import androidx.lifecycle.viewModelScope
+import com.elnimijogames.disneymovies.model.MovieRepository
+import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieDetailsViewModel(private val savedStateHandle: SavedStateHandle): ViewModel() {
-    var movieDetailsState = mutableStateOf<MovieDetails?>(null)
+@HiltViewModel
+class MovieDetailsViewModel @Inject constructor(
+    private val repository: MovieRepository,
+    private val savedStateHandle: SavedStateHandle
+    ): ViewModel() {
 
     init {
-        val id = savedStateHandle.get<Int>("id")?: 0
-        val title = savedStateHandle.get<String>("title")?: ""
-        val backdropPath = savedStateHandle.get<String>("backdropPath")?: ""
-        val posterPath = savedStateHandle.get<String>("posterPath")?: ""
-        val originalLanguage = savedStateHandle.get<String>("originalLanguage")?: ""
-        val releaseDate = savedStateHandle.get<String>("releaseDate")?: ""
-        val voteAverage = savedStateHandle.get<String>("voteAverage")?: ""
-        val voteCount = savedStateHandle.get<Int>("voteCount")?: 0
+        viewModelScope.launch(Dispatchers.IO) {
+            val movieId = savedStateHandle.get<Int>("id")?: 568124
+            val movieDetails = getMovieDetails(movieId)
+            movieDetailsState.value = movieDetails
+        }
+    }
 
-        movieDetailsState.value = MovieDetails(id, title, backdropPath, posterPath, originalLanguage, releaseDate, voteAverage, voteCount)
+    val movieDetailsState: MutableState<MovieDetailsResponse> = mutableStateOf(MovieDetailsResponse())
+
+    private suspend fun getMovieDetails(id: Int): MovieDetailsResponse {
+        return repository.getMovie(id)
     }
 }
