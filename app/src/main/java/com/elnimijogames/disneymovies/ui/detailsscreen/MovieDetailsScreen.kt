@@ -2,6 +2,7 @@ package com.elnimijogames.disneymovies.ui.detailsscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -46,59 +48,83 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 .padding(top = 0.dp)
                 .fillMaxHeight()
         )
-        Card(
-            Modifier
-                .padding(4.dp)
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.Black.copy(alpha = 0.6f))
+
+        Column(modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Card(
+                Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Black.copy(alpha = 0.6f))
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(top = 10.dp, start = 12.dp),
-                    text = movieDetailsResponse.title ?: "",
-                    style = MaterialTheme.typography.displayMedium,
-                    color = textColor
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 10.dp, start = 12.dp),
+                        text = movieDetailsResponse.title ?: "",
+                        style = MaterialTheme.typography.displayMedium,
+                        color = textColor
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 10.dp, end = 12.dp),
+                        text = movieDetailsResponse.voteAverage?.toInt().toString() ?: "",
+                        style = MaterialTheme.typography.displayMedium,
+                        color = getTextColorForAverageScore(movieDetailsResponse.voteAverage?.toInt() ?: 0)
+                    )
+                }
+
+                if (movieDetailsResponse.productionCompanies.size > 0) {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 0.dp),
+                        text = movieDetailsResponse.productionCompanies.get(0)?.name ?: "",
+                        style = MaterialTheme.typography.displaySmall,
+                        color = textColor
+                    )
+                }
 
                 Text(
                     modifier = Modifier
-                        .padding(top = 10.dp, end = 12.dp),
-                    text = movieDetailsResponse.voteAverage?.toInt().toString() ?: "",
-                    style = MaterialTheme.typography.displayMedium,
-                    color = getTextColorForAverageScore(movieDetailsResponse.voteAverage?.toInt() ?: 0)
-                )
-            }
-
-            if (movieDetailsResponse.productionCompanies.size > 0) {
-                Text(
-                    modifier = Modifier
-                        .padding(start = 10.dp, top = 0.dp),
-                    text = movieDetailsResponse.productionCompanies.get(0)?.name ?: "",
+                        .padding(start = 10.dp, top = 2.dp, bottom = 10.dp),
+                    text =
+                    movieDetailsResponse.releaseDate.toString() +
+                            "   " +
+                            "(" +
+                            movieDetailsResponse.runtime.toString() + "min" +
+                            ")",
                     style = MaterialTheme.typography.displaySmall,
                     color = textColor
                 )
             }
 
-            Text(
-                modifier = Modifier
-                    .padding(start = 10.dp, top = 2.dp, bottom = 10.dp),
-                text =
-                movieDetailsResponse.releaseDate.toString() +
-                "   " +
-                "(" +
-                movieDetailsResponse.runtime.toString() + "min" +
-                ")",
-                style = MaterialTheme.typography.displaySmall,
-                color = textColor
-            )
+            Card(
+                Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Black.copy(alpha = 0.6f))
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 10.dp, top = 10.dp, bottom = 10.dp),
+                    text = movieDetailsResponse.overview.toString(),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 4,
+                    style = MaterialTheme.typography.displaySmall,
+                    color = textColor
+                )
+            }
         }
     }
 }
