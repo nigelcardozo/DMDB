@@ -1,18 +1,20 @@
 package com.elnimijogames.disneymovies.ui.detailsscreen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -22,7 +24,11 @@ import coil.compose.AsyncImage
 import com.elnimijogames.disneymovies.model.responses.Genres
 import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.model.responses.ProductionCompanies
+import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.AVERAGE_MOVIE
+import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.GOOD_MOVIE
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
+import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
@@ -31,15 +37,6 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
     Box(
         modifier = Modifier
             .fillMaxSize()
-//            .background(
-//                brush = Brush.verticalGradient(
-//                    colors = listOf(
-//                        SplashGradientStart,
-//                        SplashGradientEnd
-//                    )
-//                )
-//            ),
-//        contentAlignment = Alignment.TopCenter
     ) {
         AsyncImage(
             model = BASE_URL + movieDetailsResponse.backdropPath,
@@ -49,21 +46,36 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 .padding(top = 0.dp)
                 .fillMaxHeight()
         )
-        Card(Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min),
+        Card(
+            Modifier
+                .padding(4.dp)
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Black.copy(alpha = 0.6f))
         ) {
 
-            Text(
-                modifier = Modifier
-                    .padding(top = 10.dp, start = 12.dp),
-                text = movieDetailsResponse.title ?: "",
-                style = MaterialTheme.typography.displayMedium,
-                color = textColor
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 10.dp, start = 12.dp),
+                    text = movieDetailsResponse.title ?: "",
+                    style = MaterialTheme.typography.displayMedium,
+                    color = textColor
+                )
+
+                Text(
+                    modifier = Modifier
+                        .padding(top = 10.dp, end = 12.dp),
+                    text = movieDetailsResponse.voteAverage?.toInt().toString() ?: "",
+                    style = MaterialTheme.typography.displayMedium,
+                    color = getTextColorForAverageScore(movieDetailsResponse.voteAverage?.toInt() ?: 0)
+                )
+            }
 
             if (movieDetailsResponse.productionCompanies.size > 0) {
                 Text(
@@ -87,13 +99,15 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 style = MaterialTheme.typography.displaySmall,
                 color = textColor
             )
-
-//            Text(
-//                text = movieDetailsResponse.voteAverage ?: "",
-//                style = MaterialTheme.typography.displaySmall,
-//                color = Color.White
-//            )
         }
+    }
+}
+
+private fun getTextColorForAverageScore(score: Int): Color {
+    return when {
+        score < AVERAGE_MOVIE -> Color.Red
+        score < GOOD_MOVIE -> Color.Yellow
+        else -> Color.Green
     }
 }
 
