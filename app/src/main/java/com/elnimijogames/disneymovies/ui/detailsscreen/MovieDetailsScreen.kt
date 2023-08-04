@@ -13,8 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.elnimijogames.disneymovies.R
 import com.elnimijogames.disneymovies.model.responses.Genres
 import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.model.responses.ProductionCompanies
@@ -127,14 +132,16 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                         color = textColor
                     )
 
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 0.dp, end = 12.dp, bottom = bottomPadding)
-                            .clickable { isHeadlineExpanded = !isHeadlineExpanded },
-                        text = "+",
-                        style = MaterialTheme.typography.displayMedium,
-                        color = textColor
-                    )
+                    if (!isHeadlineExpanded) {
+                        Icon(
+                            modifier = Modifier
+                                .padding(top = 0.dp, end = 12.dp, bottom = bottomPadding)
+                                .clickable { isHeadlineExpanded = !isHeadlineExpanded },
+                            //imageVector = R.drawable.expand_more,
+                            imageVector = Icons.Default.KeyboardArrowDown,
+                            contentDescription = "Expand More",
+                        )
+                    }
                 }
 
                 if (isHeadlineExpanded) {
@@ -146,13 +153,29 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                         color = textColor
                     )
 
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 10.dp, top = 0.dp, bottom = 10.dp),
-                        text = "Revenue: " + movieDetailsResponse.revenue.toString(),
-                        style = MaterialTheme.typography.displaySmall,
-                        color = textColor
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 10.dp, top = 0.dp, bottom = 10.dp),
+                            text = "Revenue: " + movieDetailsResponse.revenue.toString(),
+                            style = MaterialTheme.typography.displaySmall,
+                            color = textColor
+                        )
+
+                        if (isHeadlineExpanded) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(top = 0.dp, end = 12.dp, bottom = 2.dp)
+                                    .clickable { isHeadlineExpanded = !isHeadlineExpanded },
+                                imageVector = Icons.Default.KeyboardArrowUp,
+                                contentDescription = "Expand More",
+                            )
+                        }
+                    }
                 }
             }
 
