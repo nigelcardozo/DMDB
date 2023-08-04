@@ -1,5 +1,6 @@
 package com.elnimijogames.disneymovies.ui.detailsscreen
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -107,23 +110,47 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 )
             }
 
-            Card(
-                Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.Black.copy(alpha = 0.6f))
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(start = 10.dp, top = 10.dp, bottom = 10.dp),
-                    text = movieDetailsResponse.overview.toString(),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 4,
-                    style = MaterialTheme.typography.displaySmall,
-                    color = textColor
-                )
+            Column() {
+                Card(
+                    Modifier
+                        .padding(start = 4.dp, end = 4.dp, bottom = 2.dp)
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Black.copy(alpha = 0.6f))
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 10.dp, bottom = 10.dp),
+                        text = movieDetailsResponse.overview.toString(),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 4,
+                        style = MaterialTheme.typography.displaySmall,
+                        color = textColor
+                    )
+                }
+
+                Card(
+                    Modifier
+                        .padding(start = 8.dp, end = 8.dp, top = 2.dp, bottom = 4.dp)
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Black.copy(alpha = 0.7f)
+                    ),
+                    shape = RectangleShape
+                ) {
+                    val textGenresScrollState = rememberScrollState(0)
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+                            .horizontalScroll(textGenresScrollState),
+                        text = getMovieGenresString(movieDetailsResponse.genres),
+                        style = MaterialTheme.typography.displaySmall,
+                        color = textColor,
+                        maxLines = 1
+                    )
+                }
             }
         }
     }
@@ -137,11 +164,28 @@ private fun getTextColorForAverageScore(score: Int): Color {
     }
 }
 
+//private fun getMovieGenresString(movieGenres: ArrayList<Genres>): String {
+//    var response = ""
+//
+//    for ((index, movieGenre) in movieGenres.withIndex()) {
+//        response += movieGenre.name
+//
+//        if (index != movieGenres.size -1) {
+//            response += ", "
+//        }
+//    }
+//
+//    return response
+//}
+
+private fun getMovieGenresString(movieGenres: ArrayList<Genres>): String {
+    return movieGenres.joinToString(", ") { it.name.toString() }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun MovieDetailsScreenPreview() {
     DisneyMoviesTheme() {
-        val movieDetailsResponse =
         MovieDetailsScreen(
             getDummyMovieDetailData(),
             Color.Blue
