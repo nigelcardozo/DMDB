@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.elnimijogames.disneymovies.model.responses.Genres
@@ -47,6 +48,7 @@ private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 @Composable
 fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Color = Color.White) {
     var isOverviewExpanded by remember { mutableStateOf(false) }
+    var isHeadlineExpanded by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -105,18 +107,53 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                     )
                 }
 
-                Text(
-                    modifier = Modifier
-                        .padding(start = 10.dp, top = 2.dp, bottom = 10.dp),
-                    text =
-                    movieDetailsResponse.releaseDate.toString() +
-                            "   " +
-                            "(" +
-                            movieDetailsResponse.runtime.toString() + "min" +
-                            ")",
-                    style = MaterialTheme.typography.displaySmall,
-                    color = textColor
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val bottomPadding: Dp = if (isHeadlineExpanded) 0.dp else 10.dp
+
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 0.dp, bottom = bottomPadding),
+                        text =
+                        movieDetailsResponse.releaseDate.toString() +
+                                "   " +
+                                "(" +
+                                movieDetailsResponse.runtime.toString() + "min" +
+                                ")",
+                        style = MaterialTheme.typography.displaySmall,
+                        color = textColor
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 0.dp, end = 12.dp, bottom = bottomPadding)
+                            .clickable { isHeadlineExpanded = !isHeadlineExpanded },
+                        text = "+",
+                        style = MaterialTheme.typography.displayMedium,
+                        color = textColor
+                    )
+                }
+
+                if (isHeadlineExpanded) {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 0.dp),
+                        text = "Budget: " + movieDetailsResponse.budget.toString(),
+                        style = MaterialTheme.typography.displaySmall,
+                        color = textColor
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 10.dp, top = 0.dp, bottom = 10.dp),
+                        text = "Revenue: " + movieDetailsResponse.revenue.toString(),
+                        style = MaterialTheme.typography.displaySmall,
+                        color = textColor
+                    )
+                }
             }
 
             Column() {
