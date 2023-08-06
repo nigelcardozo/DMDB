@@ -1,6 +1,5 @@
 package com.elnimijogames.disneymovies.ui.movielist
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -33,7 +32,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.elnimijogames.disneymovies.model.MovieDetails
 import com.elnimijogames.disneymovies.model.responses.MovieData
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd

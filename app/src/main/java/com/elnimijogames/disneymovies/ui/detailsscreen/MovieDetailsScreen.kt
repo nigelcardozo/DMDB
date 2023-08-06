@@ -96,7 +96,7 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                     Text(
                         modifier = Modifier
                             .padding(top = 10.dp, end = 12.dp),
-                        text = movieDetailsResponse.voteAverage?.toInt().toString() ?: "",
+                        text = movieDetailsResponse.voteAverage?.toInt().toString(),
                         style = MaterialTheme.typography.displayMedium,
                         color = getTextColorForAverageScore(movieDetailsResponse.voteAverage?.toInt() ?: 0)
                     )
@@ -106,7 +106,7 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                     Text(
                         modifier = Modifier
                             .padding(start = 10.dp, top = 0.dp),
-                        text = movieDetailsResponse.productionCompanies.get(0)?.name ?: "",
+                        text = movieDetailsResponse.productionCompanies.get(0).name ?: "",
                         style = MaterialTheme.typography.displaySmall,
                         color = textColor
                     )

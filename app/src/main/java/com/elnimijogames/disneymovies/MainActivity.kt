@@ -57,16 +57,5 @@ private fun DMDBApp(stringResourceProvider: StringResourceProviderImpl) {
             val viewModel: MovieDetailsViewModel = hiltViewModel()
             MovieDetailsScreen(viewModel.movieDetailsState.value)
         }
-//        composable(
-//            route = "gallery_screen/{galleryPath}",
-//            arguments = listOf (navArgument("galleryPath") {
-//                type = NavType.StringType
-//            })
-//        ) {
-//            val viewModel: GalleryScreenViewModel = hiltViewModel()
-//            GalleryScreen(viewModel.detailsImagePath.value, navigateUpCallback = {
-//                navController.popBackStack()
-//            })
-//        }
     }
 }

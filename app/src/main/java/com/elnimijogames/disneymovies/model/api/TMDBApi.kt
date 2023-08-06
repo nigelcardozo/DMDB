@@ -19,7 +19,7 @@ import retrofit2.http.Query
 //with_genres=16
 
 class TMDBWebService {
-    private lateinit var api: TMDBApi
+    private var api: TMDBApi
     private val BASE_URL: String = "https://api.themoviedb.org/3/"
 
 

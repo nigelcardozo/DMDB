@@ -16,9 +16,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 class AppModule {
 
     @Provides
-    fun providesMovieListRepository(): MoviesListRepository = MoviesListRepository()
-
-    @Provides
     fun providesMovieRepository(): MovieRepository = MovieRepository()
 
     @Provides
