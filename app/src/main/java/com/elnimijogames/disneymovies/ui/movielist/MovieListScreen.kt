@@ -45,8 +45,7 @@ private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 @Composable
 fun MovieListScreen(movieDetailsNavigationCallback: (Int) -> Unit) {
     val viewModel: MovieListViewModel = hiltViewModel()
-
-    val movieDataList = viewModel.getMovieListPage().collectAsLazyPagingItems()
+    val movieDataList = viewModel.items.collectAsLazyPagingItems()
 
     Box(
         modifier = Modifier
