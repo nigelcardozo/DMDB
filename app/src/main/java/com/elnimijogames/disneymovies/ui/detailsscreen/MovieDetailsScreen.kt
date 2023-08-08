@@ -36,7 +36,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.elnimijogames.disneymovies.R
 import com.elnimijogames.disneymovies.model.responses.Genres
 import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.model.responses.ProductionCompanies
@@ -45,8 +44,6 @@ import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.GOOD
 import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.MAX_LINES_OVERVIEW
 import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.MIN_LINES_OVERVIEW
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
-import java.text.DecimalFormat
-import kotlin.math.roundToInt
 
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
@@ -184,7 +181,6 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                     Modifier
                         .padding(start = 4.dp, end = 4.dp, bottom = 2.dp)
                         .fillMaxWidth()
-                        .height(IntrinsicSize.Min)
                         .clickable { isOverviewExpanded = !isOverviewExpanded },
                     colors = CardDefaults.cardColors(
                         containerColor = Color.Black.copy(alpha = 0.6f))
@@ -192,11 +188,11 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                     Text(
                         modifier = Modifier
                             .padding(start = 10.dp, top = 10.dp, bottom = 10.dp),
-                        text = movieDetailsResponse.overview.toString(),
                         overflow = TextOverflow.Ellipsis,
                         maxLines = if (isOverviewExpanded) MAX_LINES_OVERVIEW else MIN_LINES_OVERVIEW,
                         style = MaterialTheme.typography.displaySmall,
-                        color = textColor
+                        color = textColor,
+                        text = movieDetailsResponse.overview.toString()
                     )
                 }
 
