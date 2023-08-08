@@ -15,10 +15,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 class AppModule {
 
     @Provides
-    fun providesMovieRepository(): MovieRepository = MovieRepository()
+    fun providesTMDBWebService(): TMDBWebService = TMDBWebService()
 
     @Provides
-    fun providesTMDBWebService(): TMDBWebService = TMDBWebService()
+    fun providesMovieRepository(): MovieRepository = MovieRepository(tmdbWebService = TMDBWebService())
 
     @Provides
     fun providesStringResourceProvider(@ApplicationContext appContext: Context): StringResourceProviderImpl {
