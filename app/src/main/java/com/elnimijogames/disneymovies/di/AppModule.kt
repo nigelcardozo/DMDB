@@ -2,7 +2,6 @@ package com.elnimijogames.disneymovies.di
 
 import android.content.Context
 import com.elnimijogames.disneymovies.model.MovieRepository
-import com.elnimijogames.disneymovies.model.MoviesListRepository
 import com.elnimijogames.disneymovies.model.StringResourceProviderImpl
 import com.elnimijogames.disneymovies.model.api.TMDBWebService
 import dagger.Module

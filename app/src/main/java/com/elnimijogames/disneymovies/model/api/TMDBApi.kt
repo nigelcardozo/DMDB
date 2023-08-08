@@ -2,7 +2,6 @@ package com.elnimijogames.disneymovies.model.api
 
 import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
 import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
-import com.elnimijogames.disneymovies.model.responses.TMDBDiscoverMoviesResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,17 +10,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-
-//https://api.themoviedb.org/3/
-//discover/movie?
-//api_key=1a2bf3735ca18e4982eef9caad46931d&
-//with_companies=3166%7C6125&
-//with_genres=16
-
 class TMDBWebService {
     private var api: TMDBApi
     private val BASE_URL: String = "https://api.themoviedb.org/3/"
-
 
     init {
         val interceptor = HttpLoggingInterceptor()
