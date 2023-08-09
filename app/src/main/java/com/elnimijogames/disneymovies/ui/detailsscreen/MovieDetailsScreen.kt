@@ -273,7 +273,6 @@ private fun getDummyMovieDetailData(): MovieDetailsResponse {
         voteAverage = 7.637,
         genres = getDummyGenreData(),
         productionCompanies = getDummyProductionCompanyData()
-
     )
 }
 
