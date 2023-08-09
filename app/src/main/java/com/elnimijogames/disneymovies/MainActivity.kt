@@ -58,7 +58,7 @@ private fun DMDBApp(stringResourceProvider: StringResourceProviderImpl) {
                     animationSpec = tween(500)
                 )
             }) {
-            SplashScreen {
+            SplashScreen(stringResourceProvider) {
                 navController.navigate("movie_list_screen")
             }
         }

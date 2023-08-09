@@ -47,6 +47,13 @@ android {
             excludes += 'META-INF/LICENSE*.*'
         }
     }
+    testOptions {
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+    }
 }
 
 dependencies {

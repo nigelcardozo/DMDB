@@ -13,7 +13,6 @@ import org.junit.Test
 class MovieRepositoryTest {
 
     private val tmdbWebService = mockk<TMDBWebService>()
-    private val repository = mockk<MovieRepository>()
 
     @Test
     fun testGetMovie() = runBlocking {

@@ -16,17 +16,16 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.elnimijogames.disneymovies.R
-import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
+import com.elnimijogames.disneymovies.model.StringResourceProvider
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
 import com.elnimijogames.disneymovies.ui.theme.StoryTimeBlue
 
 @Composable
-fun SplashScreen(navigationCallback: () -> Unit) {
+fun SplashScreen(stringResourceProvider: StringResourceProvider, navigationCallback: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -41,12 +40,12 @@ fun SplashScreen(navigationCallback: () -> Unit) {
         contentAlignment = Alignment.BottomCenter
     ) {
         Logo()
-        StartButton(navigationCallback)
+        StartButton(stringResourceProvider, navigationCallback)
     }
 }
 
 @Composable
-fun StartButton(navigationCallback: () -> Unit) {
+fun StartButton(stringResourceProvider:StringResourceProvider, navigationCallback: () -> Unit) {
     Button(
         onClick = {
             navigationCallback()
@@ -61,7 +60,7 @@ fun StartButton(navigationCallback: () -> Unit) {
             .padding(bottom = 100.dp, start = 20.dp, end = 20.dp)
     ) {
         // ToDo - Replace this with an injected resource handler to use within the viewmodel.
-        Text(text = "Go")
+        Text(text = stringResourceProvider.getString(R.string.login_go, ""))
     }
 }
 
@@ -83,10 +82,10 @@ fun Logo() {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SplashScreenPreview() {
-    DisneyMoviesTheme() {
-        SplashScreen({})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SplashScreenPreview() {
+//    DisneyMoviesTheme() {
+//        SplashScreen(StringResourceProvider(Resources()), {})
+//    }
+//}
