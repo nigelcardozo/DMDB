@@ -24,6 +24,12 @@ import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
 import com.elnimijogames.disneymovies.ui.theme.StoryTimeBlue
 
+/*
+The purpose of this screen is to display a simple log and a Go button. Whilst right now it isn't
+required longer term it can be used as a login screen. I debated moving the padding dimensions out
+of here but find it much easier to work with in this way.
+*/
+
 @Composable
 fun SplashScreen(stringResourceProvider: StringResourceProvider, navigationCallback: () -> Unit) {
     Box(
@@ -39,7 +45,7 @@ fun SplashScreen(stringResourceProvider: StringResourceProvider, navigationCallb
             ),
         contentAlignment = Alignment.BottomCenter
     ) {
-        Logo()
+        Logo(stringResourceProvider)
         StartButton(stringResourceProvider, navigationCallback)
     }
 }
@@ -59,16 +65,15 @@ fun StartButton(stringResourceProvider:StringResourceProvider, navigationCallbac
             .fillMaxWidth()
             .padding(bottom = 100.dp, start = 20.dp, end = 20.dp)
     ) {
-        // ToDo - Replace this with an injected resource handler to use within the viewmodel.
         Text(text = stringResourceProvider.getString(R.string.login_go, ""))
     }
 }
 
 @Composable
-fun Logo() {
+fun Logo(stringResourceProvider:StringResourceProvider) {
     AsyncImage(
         model = "file:///android_asset/images/disney_logo.png",
-        contentDescription = "Porsche Wallpaper",
+        contentDescription = stringResourceProvider.getString(R.string.splash_screen_background, ""),
         contentScale = ContentScale.FillWidth,
         modifier = Modifier
             .fillMaxSize()
