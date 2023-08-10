@@ -9,7 +9,6 @@ import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.model.responses.ProductionCompanies
 import io.mockk.coEvery
 import io.mockk.every
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -47,6 +46,23 @@ class MovieDetailsViewModelTest {
 
         viewModel = MovieDetailsViewModel(movieRepository, savedStateHandle, testDispatcher)
         Assert.assertEquals(getDummyMovieDetailData(5), viewModel.movieDetailsState.value)
+    }
+
+    @Test
+    fun `Error state works`() = runBlockingTest {
+        every { savedStateHandle["id"] = 5 }
+        coEvery { movieRepository.getMovie(5) } throws Exception("Error fetching data")
+
+        viewModel = MovieDetailsViewModel(movieRepository, savedStateHandle, testDispatcher)
+        Assert.assertEquals(null, viewModel.movieDetailsState.value.id)
+    }
+
+    @Test
+    fun `Retrieving details when no ID`() = runBlockingTest {
+        every<Int?> { savedStateHandle["id"] } returns null
+
+        viewModel = MovieDetailsViewModel(movieRepository, savedStateHandle, testDispatcher)
+        Assert.assertEquals(null, viewModel.movieDetailsState.value.id)
     }
 
     private fun getDummyMovieDetailData(id: Int): MovieDetailsResponse {

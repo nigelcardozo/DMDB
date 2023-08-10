@@ -23,7 +23,7 @@ class MovieDetailsViewModel @Inject constructor(
     val movieDetailsState: MutableState<MovieDetailsResponse> = mutableStateOf(MovieDetailsResponse())
 
     init {
-        val movieId = savedStateHandle.get<Int>("id") ?: 568124
+        val movieId = savedStateHandle.get<Int>("id")
         viewModelScope.launch {
             val movieDetails = withContext(appDispatchers.IO) {
                 getMovieDetails(movieId)
@@ -32,7 +32,6 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getMovieDetails(id: Int): MovieDetailsResponse {
-        return repository.getMovie(id)
-    }
+    private suspend fun getMovieDetails(id: Int?): MovieDetailsResponse =
+        id?.let { repository.getMovie(it) } ?: MovieDetailsResponse()
 }
