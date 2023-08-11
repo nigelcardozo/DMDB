@@ -15,6 +15,9 @@ import kotlin.coroutines.ContinuationInterceptor
 class MainCoroutineRule : TestWatcher(),
     TestCoroutineScope by TestCoroutineScope() {
 
+    val dispatcher: TestCoroutineDispatcher
+        get() = this.coroutineContext[ContinuationInterceptor] as TestCoroutineDispatcher
+
     override fun starting(description: Description) {
         super.starting(description)
         Dispatchers.setMain(
