@@ -6,6 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.cachedIn
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.elnimijogames.disneymovies.AppDispatchers
 import com.elnimijogames.disneymovies.MainCoroutineRule
 import com.elnimijogames.disneymovies.model.MovieRepository
@@ -23,6 +25,8 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -37,23 +41,20 @@ class MovieListViewModelTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private val tmdbWebService = mockk<TMDBWebService>(relaxed = true)
-
+//    private val tmdbWebService = mockk<TMDBWebService>(relaxed = true)
     private val moviesPagingSource = mockk<MoviesPagingSource>(relaxed = true)
+    private val tmdbWebService = mockk<TMDBWebService>()
+//    private val moviesPagingSource = mockk<MoviesPagingSource>()
 
     private lateinit var viewModel: MovieListViewModel
 
-    private val testDispatcher = AppDispatchers(
-        IO = TestCoroutineDispatcher()
-    )
-
     @Before
     fun setup() {
-        viewModel = MovieListViewModel(testDispatcher, moviesPagingSource)
+        viewModel = MovieListViewModel(AppDispatchers(IO = mainCoroutineRule.dispatcher), moviesPagingSource)
     }
 
     @Test
-    fun `Test fetching movie list`() = runBlockingTest {
+    fun `Test fetching movie list`() = mainCoroutineRule.runBlockingTest {
         // Create mock movie data
         val mockMovieData = createDummyMovieDataResponse()
 
@@ -62,18 +63,21 @@ class MovieListViewModelTest {
         coEvery { moviesPagingSource.load(any()) } returns PagingSource.LoadResult.Page(createMockMovieDataList(), null, null)
         //coEvery { tmdbWebService.getDiscoverMovies(1) } returns createDummyMovieDataResponse()
 
+        //val movieDataList = viewModel.items.collectAsLazyPagingItems()
+        val movieDataList: Flow<PagingData<MovieData>> = viewModel.items.take(1)
+
         // Collect the paging data flow and verify the items
-//        viewModel.items.collect { pagingData ->
-//            Assert.assertEquals(mockMovieData, viewModel.items)
-//        }
+        viewModel.items.collect { pagingData ->
+            Assert.assertEquals(mockMovieData, viewModel.items)
+        }
         //val collectedItems = mutableListOf<MovieData>()
         //Flow<PagingData<MovieData>>
 
         // Collect the paging data flow and add items to the list
-        viewModel.items.collect { pagingData ->
-            //val collectedItems = pagingData.toList()
-            //Assert.assertEquals(mockMovieData, collectedItems)
-        }
+//        viewModel.items.collect { pagingData ->
+//            //val collectedItems = pagingData.toList()
+//            //Assert.assertEquals(mockMovieData, collectedItems)
+//        }
     }
 
     fun createDummyMovieDataResponse(): DiscoverMoviesResponse {
