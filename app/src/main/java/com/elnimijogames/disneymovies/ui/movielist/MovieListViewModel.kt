@@ -7,7 +7,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.elnimijogames.disneymovies.AppDispatchers
 import com.elnimijogames.disneymovies.model.MoviesPagingSource
-import com.elnimijogames.disneymovies.model.api.TMDBWebService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

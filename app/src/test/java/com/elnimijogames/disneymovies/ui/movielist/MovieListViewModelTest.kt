@@ -1,34 +1,18 @@
 package com.elnimijogames.disneymovies.ui.movielist
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
-import androidx.paging.cachedIn
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.elnimijogames.disneymovies.AppDispatchers
 import com.elnimijogames.disneymovies.MainCoroutineRule
-import com.elnimijogames.disneymovies.model.MovieRepository
 import com.elnimijogames.disneymovies.model.MoviesPagingSource
-import com.elnimijogames.disneymovies.model.api.TMDBWebService
+import com.elnimijogames.disneymovies.model.api.TMDBWebServiceImpl
 import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
-import com.elnimijogames.disneymovies.model.responses.Genres
 import com.elnimijogames.disneymovies.model.responses.MovieData
-import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
-import com.elnimijogames.disneymovies.model.responses.ProductionCompanies
-import com.google.gson.annotations.SerializedName
 import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
@@ -43,7 +27,7 @@ class MovieListViewModelTest {
 
 //    private val tmdbWebService = mockk<TMDBWebService>(relaxed = true)
     private val moviesPagingSource = mockk<MoviesPagingSource>(relaxed = true)
-    private val tmdbWebService = mockk<TMDBWebService>()
+    private val tmdbWebService = mockk<TMDBWebServiceImpl>()
 //    private val moviesPagingSource = mockk<MoviesPagingSource>()
 
     private lateinit var viewModel: MovieListViewModel

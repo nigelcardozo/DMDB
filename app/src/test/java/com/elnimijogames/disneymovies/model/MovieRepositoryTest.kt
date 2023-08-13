@@ -1,6 +1,6 @@
 package com.elnimijogames.disneymovies.model
 
-import com.elnimijogames.disneymovies.model.api.TMDBWebService
+import com.elnimijogames.disneymovies.model.api.TMDBWebServiceImpl
 import com.elnimijogames.disneymovies.model.responses.Genres
 import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.model.responses.ProductionCompanies
@@ -12,7 +12,7 @@ import org.junit.Test
 
 class MovieRepositoryTest {
 
-    private val tmdbWebService = mockk<TMDBWebService>()
+    private val tmdbWebService = mockk<TMDBWebServiceImpl>()
 
     @Test
     fun testGetMovie() = runBlocking {

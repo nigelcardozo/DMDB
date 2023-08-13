@@ -2,11 +2,11 @@ package com.elnimijogames.disneymovies.di
 
 import android.content.Context
 import com.elnimijogames.disneymovies.AppDispatchers
+import com.elnimijogames.disneymovies.mocks.MockTMDBWebServiceImpl
 import com.elnimijogames.disneymovies.model.MovieRepository
 import com.elnimijogames.disneymovies.model.MoviesPagingSource
 import com.elnimijogames.disneymovies.model.StringResourceProviderImpl
 import com.elnimijogames.disneymovies.model.api.TMDBWebService
-import com.elnimijogames.disneymovies.model.api.TMDBWebServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,16 +15,16 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class AppModule {
+class TestAppModule {
 
     @Provides
-    fun providesTMDBWebService(): TMDBWebService = TMDBWebServiceImpl()
+    fun providesTMDBWebService(): TMDBWebService = MockTMDBWebServiceImpl()
 
     @Provides
-    fun providesTMDBWebServiceImpl(): TMDBWebServiceImpl = TMDBWebServiceImpl()
+    fun providesTMDBWebServiceImpl(): MockTMDBWebServiceImpl = MockTMDBWebServiceImpl()
 
     @Provides
-    fun providesMovieRepository(): MovieRepository = MovieRepository(tmdbWebService = TMDBWebServiceImpl())
+    fun providesMovieRepository(): MovieRepository = MovieRepository(tmdbWebService = MockTMDBWebServiceImpl())
 
     @Provides
     fun providesStringResourceProvider(@ApplicationContext appContext: Context): StringResourceProviderImpl {
@@ -37,7 +37,7 @@ class AppModule {
     }
 
     @Provides
-    fun providesMoviesPagingSource(tmdbWebService: TMDBWebService, appDispatchers: AppDispatchers): MoviesPagingSource {
+    fun providesMoviesPagingSource(tmdbWebService: MockTMDBWebServiceImpl, appDispatchers: AppDispatchers): MoviesPagingSource {
         return MoviesPagingSource(tmdbWebService, appDispatchers)
     }
 

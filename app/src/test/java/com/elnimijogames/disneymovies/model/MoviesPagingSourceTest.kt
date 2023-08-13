@@ -3,13 +3,12 @@ package com.elnimijogames.disneymovies.model
 import androidx.paging.PagingSource
 import com.elnimijogames.disneymovies.AppDispatchers
 import com.elnimijogames.disneymovies.MainCoroutineRule
-import com.elnimijogames.disneymovies.model.api.TMDBWebService
+import com.elnimijogames.disneymovies.model.api.TMDBWebServiceImpl
 import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
 import com.elnimijogames.disneymovies.model.responses.MovieData
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
@@ -23,7 +22,7 @@ class MoviesPagingSourceTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private val tmdbWebService = mockk<TMDBWebService>()
+    private val tmdbWebService = mockk<TMDBWebServiceImpl>()
 
     private lateinit var pagingSource: PagingSource<Int, MovieData>
 

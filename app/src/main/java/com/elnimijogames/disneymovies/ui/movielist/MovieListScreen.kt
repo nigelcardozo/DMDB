@@ -41,8 +41,10 @@ import timber.log.Timber
 private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
-fun MovieListScreen(movieDetailsNavigationCallback: (Int) -> Unit) {
-    val viewModel: MovieListViewModel = hiltViewModel()
+fun MovieListScreen(
+    viewModel: MovieListViewModel = hiltViewModel(),
+    movieDetailsNavigationCallback: (Int) -> Unit
+) {
     val movieDataList = viewModel.items.collectAsLazyPagingItems()
 
     Box(
@@ -117,7 +119,7 @@ fun MenuItemTile(movieData: MovieData, navigationCallback: (Int) -> Unit) {
                         Timber.d("onClick event for movie ID == " + movieData.id)
                         navigationCallback(movieData.id)
                     }
-                )
+                    )
             )
 
             Spacer(modifier = Modifier.height(height = 15.dp))
@@ -140,6 +142,9 @@ fun MenuItemTile(movieData: MovieData, navigationCallback: (Int) -> Unit) {
 @Composable
 fun MovieListScreenPreview() {
     DisneyMoviesTheme() {
-        MovieListScreen({})
+        MovieListScreen(
+            hiltViewModel(),
+            {}
+        )
     }
 }

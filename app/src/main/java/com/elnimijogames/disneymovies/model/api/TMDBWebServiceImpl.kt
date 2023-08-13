@@ -10,7 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-class TMDBWebService {
+class TMDBWebServiceImpl: TMDBWebService {
     private var api: TMDBApi
     private val BASE_URL: String = "https://api.themoviedb.org/3/"
 
@@ -30,7 +30,7 @@ class TMDBWebService {
         api = retrofit.create(TMDBApi::class.java)
     }
 
-    suspend fun getDiscoverMovies(page: Int): DiscoverMoviesResponse {
+    override suspend fun getDiscoverMovies(page: Int): DiscoverMoviesResponse {
         //ToDo: These should be passed in from a higher layer
         return api.getDiscoverMovies(
             API_KEY,
@@ -40,7 +40,7 @@ class TMDBWebService {
         )
     }
 
-    suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse {
+    override suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse {
         return api.getDiscoverMovieDetails(
             movieId,
             API_KEY,
