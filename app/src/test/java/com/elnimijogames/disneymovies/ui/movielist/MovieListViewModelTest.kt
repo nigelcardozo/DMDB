@@ -25,10 +25,8 @@ class MovieListViewModelTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-//    private val tmdbWebService = mockk<TMDBWebService>(relaxed = true)
     private val moviesPagingSource = mockk<MoviesPagingSource>(relaxed = true)
     private val tmdbWebService = mockk<TMDBWebServiceImpl>()
-//    private val moviesPagingSource = mockk<MoviesPagingSource>()
 
     private lateinit var viewModel: MovieListViewModel
 
