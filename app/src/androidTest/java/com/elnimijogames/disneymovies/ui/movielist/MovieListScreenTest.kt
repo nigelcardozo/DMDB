@@ -33,6 +33,7 @@ class MovieListScreenTest {
     val composeRule = createAndroidComposeRule<MainActivity>()
 
     var navigationCallbackInvoked = false
+    var navigationCallbackId: Int = -1
 
     @Before
     fun setup() {
@@ -46,7 +47,10 @@ class MovieListScreenTest {
             DisneyMoviesTheme {
                 NavHost(navController, startDestination = "movie_list_screen") {
                     composable(route = "movie_list_screen") {
-                        MovieListScreen(movieDetailsNavigationCallback = { navigationCallbackInvoked = true })
+                        MovieListScreen(movieDetailsNavigationCallback = {
+                            navigationCallbackId = it
+                            navigationCallbackInvoked = true
+                        })
                     }
                 }
             }
@@ -87,5 +91,14 @@ class MovieListScreenTest {
             .assertIsDisplayed()
             .performClick()
         assertTrue(navigationCallbackInvoked)
+        assert(navigationCallbackId == 1)
+
+        navigationCallbackInvoked = false
+
+        composeRule.onNodeWithTag("/dummy_poster_path2.jpg")
+            .assertIsDisplayed()
+            .performClick()
+        assertTrue(navigationCallbackInvoked)
+        assert(navigationCallbackId == 2)
     }
 }
