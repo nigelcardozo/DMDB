@@ -1,6 +1,6 @@
-package com.elnimijogames.disneymovies.mocks
+package com.elnimijogames.disneymovies.testinghelpers.mocks
 
-import com.elnimijogames.disneymovies.dummydata.DummyMovieData
+import com.elnimijogames.disneymovies.testinghelpers.dummydata.DummyMovieData
 import com.elnimijogames.disneymovies.model.api.TMDBWebService
 import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
 import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse

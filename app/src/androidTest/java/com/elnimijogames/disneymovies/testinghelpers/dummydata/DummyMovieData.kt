@@ -1,4 +1,4 @@
-package com.elnimijogames.disneymovies.dummydata
+package com.elnimijogames.disneymovies.testinghelpers.dummydata
 
 import com.elnimijogames.disneymovies.model.responses.DiscoverMoviesResponse
 import com.elnimijogames.disneymovies.model.responses.MovieData
