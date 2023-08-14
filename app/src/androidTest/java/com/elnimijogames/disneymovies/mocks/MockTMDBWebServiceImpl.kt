@@ -49,14 +49,14 @@ class MockTMDBWebServiceImpl: TMDBWebService {
     ): MovieData {
         return MovieData(
             adult = false,
-            backdropPath = "/dummy_backdrop_path.jpg",
+            backdropPath = "/dummy_backdrop_path$id.jpg",
             genreIds = listOf(1, 2, 3),
             id = id,
             originalLanguage = "en",
             originalTitle = title,
             overView = overview,
             popularity = 123.45,
-            posterPath = "/dummy_poster_path.jpg",
+            posterPath = "/dummy_poster_path$id.jpg",
             releaseDate = releaseDate,
             title = title,
             video = false,

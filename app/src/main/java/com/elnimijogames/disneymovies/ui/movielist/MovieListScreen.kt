@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -115,11 +117,14 @@ fun MenuItemTile(movieData: MovieData, navigationCallback: (Int) -> Unit) {
                     .size(250.dp)
                     .padding(top = 0.dp)
                     .align(Alignment.CenterHorizontally)
+                    .semantics {
+                        testTag = movieData.posterPath
+                    }
                     .clickable(onClick = {
                         Timber.d("onClick event for movie ID == " + movieData.id)
                         navigationCallback(movieData.id)
                     }
-                    )
+                )
             )
 
             Spacer(modifier = Modifier.height(height = 15.dp))
