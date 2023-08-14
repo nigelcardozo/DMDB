@@ -35,12 +35,11 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.elnimijogames.disneymovies.model.responses.MovieData
+import com.elnimijogames.disneymovies.ui.MovieConstants.BASE_URL
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientEnd
 import com.elnimijogames.disneymovies.ui.theme.SplashGradientStart
 import timber.log.Timber
-
-private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
 fun MovieListScreen(

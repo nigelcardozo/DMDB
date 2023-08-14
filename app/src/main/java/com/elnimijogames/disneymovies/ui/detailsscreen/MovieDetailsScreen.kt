@@ -41,13 +41,12 @@ import coil.compose.AsyncImage
 import com.elnimijogames.disneymovies.model.responses.Genres
 import com.elnimijogames.disneymovies.model.responses.MovieDetailsResponse
 import com.elnimijogames.disneymovies.model.responses.ProductionCompanies
-import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.AVERAGE_MOVIE
-import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.GOOD_MOVIE
-import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.MAX_LINES_OVERVIEW
-import com.elnimijogames.disneymovies.ui.detailsscreen.MovieDetailConstants.MIN_LINES_OVERVIEW
+import com.elnimijogames.disneymovies.ui.MovieConstants.AVERAGE_MOVIE
+import com.elnimijogames.disneymovies.ui.MovieConstants.BASE_URL
+import com.elnimijogames.disneymovies.ui.MovieConstants.GOOD_MOVIE
+import com.elnimijogames.disneymovies.ui.MovieConstants.MAX_LINES_OVERVIEW
+import com.elnimijogames.disneymovies.ui.MovieConstants.MIN_LINES_OVERVIEW
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
-
-private val BASE_URL = "https://image.tmdb.org/t/p/w370_and_h556_multi_faces/"
 
 @Composable
 fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Color = Color.White) {
@@ -271,51 +270,8 @@ private fun getMovieGenresString(movieGenres: ArrayList<Genres>): String {
 fun MovieDetailsScreenPreview() {
     DisneyMoviesTheme() {
         MovieDetailsScreen(
-            getDummyMovieDetailData(),
+            DummyMovieDetails().getDummyMovieDetailsResponse(),
             Color.Blue
         )
     }
-}
-
-private fun getDummyMovieDetailData(): MovieDetailsResponse {
-    return MovieDetailsResponse(
-        id = 568124,
-        budget = 50000,
-        title = "Encanto",
-        overview = "The tale of an extraordinary family, the Madrigals, who live hidden in the mountains of Colombia, in a magical house, in a vibrant town, in a wondrous, charmed place called an Encanto. The magic of the Encanto has blessed every child in the family—every child except one, Mirabel. But when she discovers that the magic surrounding the Encanto is in danger, Mirabel decides that she, the only ordinary Madrigal, might just be her exceptional family's last hope.",
-        releaseDate = "2021-10-13",
-        revenue = 253000000,
-        runtime = 102,
-        status = "released",
-        tagline = "There's a little magic in all of us...almost all of us.",
-        voteAverage = 7.637,
-        genres = getDummyGenreData(),
-        productionCompanies = getDummyProductionCompanyData()
-    )
-}
-
-private fun getDummyGenreData(): ArrayList<Genres> {
-    return arrayListOf(
-        Genres(16, "Animation"),
-        Genres(35, "Comedy"),
-        Genres(10751, "Family"),
-        Genres(14, "Fantasy"),
-    )
-}
-
-private fun getDummyProductionCompanyData(): ArrayList<ProductionCompanies> {
-    return arrayListOf(
-        ProductionCompanies(
-            6125,
-            "/tzsMJBJZINu7GHzrpYzpReWhh66.png",
-            "Walt Disney Animation Studios",
-            "US"
-        ),
-        ProductionCompanies(
-            2,
-            "/wdrCwmRnLFJhEoH8GSfymY85KHT.png",
-            "Walt Disney Pictures",
-            "US"
-        )
-    )
 }

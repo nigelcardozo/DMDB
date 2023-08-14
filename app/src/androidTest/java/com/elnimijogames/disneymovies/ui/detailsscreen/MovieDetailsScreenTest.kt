@@ -11,7 +11,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.elnimijogames.disneymovies.MainActivity
 import com.elnimijogames.disneymovies.di.AppModule
-import com.elnimijogames.disneymovies.testinghelpers.dummydata.DummyMovieDetails
 import com.elnimijogames.disneymovies.ui.theme.DisneyMoviesTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
