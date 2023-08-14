@@ -31,6 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -84,7 +86,10 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(top = 10.dp, start = 12.dp),
+                            .padding(top = 10.dp, start = 12.dp)
+                            .semantics {
+                               testTag = "md_headline_card_movie_title"
+                            },
                         text = movieDetailsResponse.title ?: "",
                         style = MaterialTheme.typography.displayMedium,
                         color = textColor
@@ -92,7 +97,10 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
 
                     Text(
                         modifier = Modifier
-                            .padding(top = 10.dp, end = 12.dp),
+                            .padding(top = 10.dp, end = 12.dp)
+                            .semantics {
+                                testTag = "md_headline_card_vote_average"
+                            },
                         text = movieDetailsResponse.voteAverage?.toInt().toString(),
                         style = MaterialTheme.typography.displayMedium,
                         color = getTextColorForAverageScore(movieDetailsResponse.voteAverage?.toInt() ?: 0)
@@ -102,7 +110,10 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 if (movieDetailsResponse.productionCompanies.size > 0) {
                     Text(
                         modifier = Modifier
-                            .padding(start = 10.dp, top = 0.dp),
+                            .padding(start = 10.dp, top = 0.dp)
+                            .semantics {
+                                testTag = "md_headline_card_production_companies"
+                            },
                         text = movieDetailsResponse.productionCompanies.get(0).name ?: "",
                         style = MaterialTheme.typography.displaySmall,
                         color = textColor
@@ -118,12 +129,15 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
 
                     Text(
                         modifier = Modifier
-                            .padding(start = 10.dp, top = 0.dp, bottom = bottomPadding),
+                            .padding(start = 10.dp, top = 0.dp, bottom = bottomPadding)
+                            .semantics {
+                                testTag = "md_headline_card_release_date"
+                            },
                         text =
                         movieDetailsResponse.releaseDate.toString() +
                                 "   " +
                                 "(" +
-                                movieDetailsResponse.runtime.toString() + "min" +
+                                movieDetailsResponse.runtime.toString() + " min" +
                                 ")",
                         style = MaterialTheme.typography.displaySmall,
                         color = textColor
@@ -133,6 +147,9 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                         Icon(
                             modifier = Modifier
                                 .padding(top = 0.dp, end = 12.dp, bottom = bottomPadding)
+                                .semantics {
+                                    testTag = "md_headline_card_icon_expand_more"
+                                }
                                 .clickable { isHeadlineExpanded = !isHeadlineExpanded },
                             //imageVector = R.drawable.expand_more,
                             imageVector = Icons.Default.KeyboardArrowDown,
@@ -144,7 +161,10 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 if (isHeadlineExpanded) {
                     Text(
                         modifier = Modifier
-                            .padding(start = 10.dp, top = 0.dp),
+                            .padding(start = 10.dp, top = 0.dp)
+                            .semantics {
+                                testTag = "md_headline_card_budget"
+                            },
                         text = "Budget: " + movieDetailsResponse.budget.toString(),
                         style = MaterialTheme.typography.displaySmall,
                         color = textColor
@@ -157,7 +177,10 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                     ) {
                         Text(
                             modifier = Modifier
-                                .padding(start = 10.dp, top = 0.dp, bottom = 10.dp),
+                                .padding(start = 10.dp, top = 0.dp, bottom = 10.dp)
+                                .semantics {
+                                    testTag = "md_headline_card_revenue"
+                                },
                             text = "Revenue: " + movieDetailsResponse.revenue.toString(),
                             style = MaterialTheme.typography.displaySmall,
                             color = textColor
@@ -167,9 +190,12 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                             Icon(
                                 modifier = Modifier
                                     .padding(top = 0.dp, end = 12.dp, bottom = 2.dp)
-                                    .clickable { isHeadlineExpanded = !isHeadlineExpanded },
+                                    .clickable { isHeadlineExpanded = !isHeadlineExpanded }
+                                    .semantics {
+                                        testTag = "md_headline_card_icon_expand_less"
+                                    },
                                 imageVector = Icons.Default.KeyboardArrowUp,
-                                contentDescription = "Expand More",
+                                contentDescription = "Expand Less",
                             )
                         }
                     }
@@ -187,7 +213,10 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(start = 10.dp, top = 10.dp, bottom = 10.dp),
+                            .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+                            .semantics {
+                                testTag = "md_overview_card_overview"
+                            },
                         overflow = TextOverflow.Ellipsis,
                         maxLines = if (isOverviewExpanded) MAX_LINES_OVERVIEW else MIN_LINES_OVERVIEW,
                         style = MaterialTheme.typography.displaySmall,
@@ -210,7 +239,10 @@ fun MovieDetailsScreen(movieDetailsResponse: MovieDetailsResponse, textColor: Co
                     Text(
                         modifier = Modifier
                             .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
-                            .horizontalScroll(textGenresScrollState),
+                            .horizontalScroll(textGenresScrollState)
+                            .semantics {
+                                testTag = "md_tags_card"
+                            },
                         text = getMovieGenresString(movieDetailsResponse.genres),
                         style = MaterialTheme.typography.displaySmall,
                         color = textColor,
@@ -229,20 +261,6 @@ private fun getTextColorForAverageScore(score: Int): Color {
         else -> Color.Green
     }
 }
-
-//private fun getMovieGenresString(movieGenres: ArrayList<Genres>): String {
-//    var response = ""
-//
-//    for ((index, movieGenre) in movieGenres.withIndex()) {
-//        response += movieGenre.name
-//
-//        if (index != movieGenres.size -1) {
-//            response += ", "
-//        }
-//    }
-//
-//    return response
-//}
 
 private fun getMovieGenresString(movieGenres: ArrayList<Genres>): String {
     return movieGenres.joinToString(", ") { it.name.toString() }
